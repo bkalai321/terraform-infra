@@ -1,0 +1,13 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Creating IAM'
+
+Resources:
+  MyInstance: 
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: 'ami-asdf'
+
+Outputs:
+  MyValue:
+    Value: !Ref MyInstance
+

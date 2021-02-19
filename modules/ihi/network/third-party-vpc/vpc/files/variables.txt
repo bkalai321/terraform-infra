@@ -1,0 +1,6 @@
+aws_region="${aws_region}"
+name="${name}"
+vpc_component="${vpc_component}"
+vpc_cidr_block="${vpc_cidr_block}"
+private_az="${private_az}"
+public_az="${public_az}"

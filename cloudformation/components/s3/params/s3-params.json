@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "bucketName",
+    "ParameterValue": "${bucketName}"
+  },
+  {
+    "ParameterKey": "accessControl",
+    "ParameterValue": "${accessControl}"
+  },
+  {
+    "ParameterKey": "bucketEncryption",
+    "ParameterValue": "${bucketEncryption}"
+  },
+  {
+    "ParameterKey": "bucketExpirationDays",
+    "ParameterValue": "${bucketExpirationDays}"
+  },
+  {
+    "ParameterKey": "s3VersioningConfiguration",
+    "ParameterValue": "${s3VersioningConfiguration}"
+  }
+]

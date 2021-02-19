@@ -1,0 +1,6 @@
+aws_region="${aws_region}"
+vpc_id="${vpc_id}"
+vpc_peering_connection_id="${vpc_peering_connection_id}"
+cidr_block="${cidr_block}"
+name="${var.name}"
+component="${component}"

@@ -1,0 +1,19 @@
+version: "3"
+services: 
+  jenkinsmaster:
+    image: "jenkinsci/blueocean"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: "2000M"
+        reservations:
+          cpus: "1"
+          memory: "1500M"
+    build: .
+    ports:
+      - "80:8080"
+      - "50000:50000"
+    volumes: 
+      -  /tmp/var/lib/jenkins:/var/jenkins_home
+      - /tmp/var/run/docker.sock:/var/run/docker.sock

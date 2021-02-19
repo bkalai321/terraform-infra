@@ -1,0 +1,130 @@
+provider "aws" {
+  region = "${var.aws_region}"
+}
+
+module "jenkins_sg" {
+  source = "../../../aws/ec2/securitygroup"
+  vpc_id = "${data.terraform_remote_state.vpc.vpc_id}"
+  name = "${data.terraform_remote_state.vpc.vpc_name}"
+  component = "${var.component}"
+}
+
+module "jenkins_key_pair" {
+  source = "../../../aws/ec2/keypair"
+  component = "${var.component}"
+  name = "${data.terraform_remote_state.vpc.vpc_name}"
+  public_key = "${file("files/public-keys.txt")}"
+}
+
+module "jenkins_iam_profile" {
+  source = "../../../aws/iam/service"
+  name = "${data.terraform_remote_state.vpc.vpc_name}"
+  component = "${var.component}"
+  policy_content = "${file("files/iam-profile-jenkins.json")}"
+}
+
+module "jenkins_alb" {
+  source = "../../../aws/ec2/elb/alb"
+  myVersion = "${var.version}"
+  name = "${data.terraform_remote_state.vpc.vpc_name}"
+  component = "jenkins-alb"
+  myVersion = "${var.version}"
+  subnets = ["${data.terraform_remote_state.vpc.private_subnets_id}"]
+  security_groups = ["${module.jenkins_sg.id}"]
+  vpc_id = "${data.terraform_remote_state.vpc.vpc_id}"
+  health_check_path = "/login"
+  health_check_traffic_port = "traffic-port"
+  health_check_interval = "150"
+  health_check_timeout = "60"
+  health_check_traffic_port = "8080"
+  health_check_healthy_threshold = "4"
+  health_check_unhealthy_threshold = "10"
+  health_check_matcher = "200-299,403"
+
+}
+
+module "jenkins" {
+  source = "../../../aws/ec2/asg/alb"
+  vpc_zone_identifier = ["${data.terraform_remote_state.vpc.private_subnets_id}"]
+  availability_zones = ["${data.terraform_remote_state.vpc.private_subnet_availability_zone}"]
+  asg_min_size = "1"
+  asg_max_size = "1"
+  myVersion = "${var.version}"
+  name = "${data.terraform_remote_state.vpc.vpc_name}"
+  component = "jenkins"
+  image_id = "${var.image_id}"
+  instance_type =  "m5a.large"
+  iam_instance_profile = "${module.jenkins_iam_profile.iam_instance_profile_name}"
+  security_groups = ["${module.jenkins_sg.id}"]
+  aws_key_pair_name = "${module.jenkins_key_pair.aws_key_pair_name}"
+  user_data = "${file("files/jenkins-userdata.sh")}"
+  associate_public_ip_address = "false"
+  alb_target_group_arns = ["${module.jenkins_alb.target_group_arn}"]
+  health_check_default_cooldown = "400"
+  health_check_grace_period = "300"
+
+  ebs_block_device = [
+    {
+      device_name           = "/dev/xvdz"
+      volume_type           = "gp2"
+      volume_size           = "50"
+      delete_on_termination = true
+    },
+  ]
+
+  root_block_device = [
+    {
+      volume_size           = "50"
+      volume_type           = "gp2"
+      delete_on_termination = true
+    },
+  ]
+}
+
+module "jenkins_route53_record" {
+  source = "../../../aws/route53/record"
+  hosted_zone_id = "${data.terraform_remote_state.vpc.private_hosted_zone_id}"
+  domain_name = "jenkins"
+  hosted_domain_name = "${data.terraform_remote_state.vpc.hosted_domain_name}"
+  dns_type = "CNAME"
+  record_ips = ["${module.jenkins_alb.alb_dns_name}"]
+}
+
+# module "jenkins_cert" {
+#   source = "../../../aws/certificate"
+#   domain_name = "jenkins"
+#   hosted_domain_name = "${data.terraform_remote_state.vpc.hosted_domain_name}"
+# }
+
+# module "jenkins_route53_cert_record" {
+#   source = "../../../aws/route53/record"
+#   hosted_zone_id = "${data.terraform_remote_state.vpc.public_hosted_zone_id}"
+#   domain_name = "${module.jenkins_cert.cert_dns_validate_resource_record_name}"
+#   hosted_domain_name = "${data.terraform_remote_state.vpc.hosted_domain_name}"
+#   dns_type = "${module.jenkins_cert.cert_dns_validate_resource_record_type}"
+#   record_ips = ["${module.jenkins_cert.cert_dns_validate_resource_record_value}"]
+# }
+
+module "jenkins_alb_listener" {
+  source = "../../../aws/ec2/elb/alb/listener"
+
+  alb_arn = "${module.jenkins_alb.alb_arn}"
+  listener_port = "80"
+  listener_protocol = "HTTP"
+  target_group_arn = "${module.jenkins_alb.target_group_arn}"
+}
+
+
+module "jenkins_slave_iam_group" {
+  source = "../../../aws/iam/user/group"
+  policy = "${file("files/iam-profile-create-slave.json")}"
+  name = "${data.terraform_remote_state.vpc.vpc_name}"
+  component = "${var.component}"
+}
+
+module "attach_user_to_group" {
+  source = "../../../aws/iam/user/user-group-attachment"
+  user_iam_name = "${var.user_iam_name}"
+  group_iam_name = ["${module.jenkins_slave_iam_group.group_name}"]
+}
+

@@ -1,0 +1,17 @@
+- hosts: fortigate-development
+  vars:
+    host: "99.43.125.148"
+    username: "bpuri"
+    password: "IHL@Oct2019India"
+    vdom: "root"
+    ssl_verify: "False"
+
+  tasks:
+  - name: gather basic system status facts
+    fortios_facts:
+      host:  "{{ host }}"
+      username: "{{ username }}"
+      password: "{{ password }}"
+      vdom:  "{{ vdom }}"
+      gather_subset:
+        - fact: 'system_status_select'

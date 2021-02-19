@@ -1,0 +1,8 @@
+fortios_host="${fortios_host}"
+fortios_token="${fortios_token}"
+name="${name}"
+remote_gw="${remote_gw}"
+psksecret="${psksecret}"
+interface_ip="${interface_ip}"
+static_route_dst="${static_route_dst}"
+static_route_gateway="${static_route_gateway}"

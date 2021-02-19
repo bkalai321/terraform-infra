@@ -1,0 +1,8 @@
+description="${description}"
+aws_s3_bucket_name="${aws_s3_bucket_name}"
+aws_s3_bucket_key="${aws_s3_bucket_key}"
+function_name="${function_name}"
+handler="${handler}"
+runtime="${runtime}"
+subnet_ids=${subnet_ids}
+security_group_ids=${security_group_ids}

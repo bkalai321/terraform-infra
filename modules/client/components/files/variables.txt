@@ -1,0 +1,10 @@
+aws_region="us-east-1"
+component="pilot"
+domain_controller_private_ip="172.16.19.100"
+image_id="ami-235afg"
+instance_type="c3.large"
+name="beld-main"
+private_az="us-east-1f"
+subnet_id
+vpc_id
+zone_controller_private_ip="172.16.19.101"

@@ -1,0 +1,5 @@
+aws_region="${aws_region}"
+name="${name}"
+component="${component}"
+policy_filename="${policy_filename}"
+bucket_name="${bucket_name}"

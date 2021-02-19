@@ -1,0 +1,5 @@
+instance_class="${instance_class}"
+aws_region="${aws_region}"
+db_instance_identifier="${db_instance_identifier}"
+component="${component}"
+type-deployment="${type-deployment}"

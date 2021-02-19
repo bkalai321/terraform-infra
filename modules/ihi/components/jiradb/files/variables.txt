@@ -1,0 +1,8 @@
+snapshot_identifier="${snapshot_identifier}"
+username="${username}"
+password="${password}"
+db_instance_identifier="${db_instance_identifier}"
+component="${component}"
+type-deployment="${type-deployment}"
+type="${type}"
+count="${count}"
