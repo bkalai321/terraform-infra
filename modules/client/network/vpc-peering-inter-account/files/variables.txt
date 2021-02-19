@@ -1,8 +1,0 @@
-peer_vpc_id="${peer_vpc_id}"
-name="${name}"
-components="${components}"
-vpc_id="${vpc_id}"
-peer_aws_region="${peer_aws_region}"
-auto_accept="${auto_accept}"
-aws_region="${aws_region}"
-owner_id="${owner_id}"

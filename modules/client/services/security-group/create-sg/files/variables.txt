@@ -1,5 +1,0 @@
-aws_region="${aws_region}"
-name="${name}"
-component="${component}"
-jenkinsUser="${jenkinsUser}"
-vpc_id="${vpc_id}"

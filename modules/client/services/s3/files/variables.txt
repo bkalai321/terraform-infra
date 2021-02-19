@@ -1,3 +1,0 @@
-aws_region="${aws_region}"
-bucket_region="${bucket_region}"
-bucket_name="${bucket_name}"

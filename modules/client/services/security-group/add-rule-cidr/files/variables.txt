@@ -1,6 +1,0 @@
-aws_region="${aws_region}"
-source_port="${source_port}"
-destination_port="${destination_port}"
-protocol="${protocol}"
-cidr="${cidr}"
-security_group_id="${security_group_id}"

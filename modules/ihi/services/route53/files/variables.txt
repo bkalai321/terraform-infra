@@ -1,4 +1,0 @@
-domain_name="${domain_name}"
-record_value="${record_value}"
-dns_type="${dns_type}"
-aws_region="${aws_region}"

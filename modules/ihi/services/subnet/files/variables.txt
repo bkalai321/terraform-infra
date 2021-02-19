@@ -1,8 +1,0 @@
-name="${name}"
-private_az=${private_az}
-octet_bit="${octet_bit}"
-aws_region="${aws_region}"
-subnet_third_octet="${subnet_third_octet}"
-subnet_component="${subnet_component}"
-nat_gateway_id="${nat_gateway_id}"
-last_octet="${last_octet}"

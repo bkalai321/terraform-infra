@@ -1,3 +1,0 @@
-jenkinsUser="${jenkinsUser}"
-build_url="${build_url}"
-folderPath="${folderPath}"

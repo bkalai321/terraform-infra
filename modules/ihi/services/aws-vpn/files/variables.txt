@@ -1,8 +1,0 @@
-aws_region="${aws_region}"
-name="${name}"
-customer_gateway_ip="${customer_gateway_ip}"
-vpc_id="${vpc_id}"
-vpn_gateway_id="${vpn_gateway_id}"
-vpc_routing_table_ids=${vpc_routing_table_ids}
-psksecret="${psksecret}"
-destination_cidr_block="${destination_cidr_block}"

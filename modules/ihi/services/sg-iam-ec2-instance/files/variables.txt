@@ -1,4 +1,0 @@
-name="${name}"
-component="${component}"
-aws_region="${aws_region}"
-vpc_id="${vpc_id}"
